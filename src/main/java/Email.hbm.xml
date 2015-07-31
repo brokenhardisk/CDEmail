@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC 
+ "-//Hibernate/Hibernate Mapping DTD//EN"
+ "http://www.hibernate.org/dtd/hibernate-mapping-3.0.dtd"> 
+<hibernate-mapping >
+	<class name="com.bhd.cd.Email" table="EmailQueue" >
+	     <id name="id" column ="ID" >
+	     	<generator class="increment"></generator>
+	     </id>
+	     <property name="fromEmailAddr" column="From" />
+	     <property name="toEmailAddr" column="To" />
+	     <property name="subject" column="Subject" />
+	     <property name="body" column="Body" />
+	     <property name="mailSent" column="Sent" />
+	</class>
+</hibernate-mapping>

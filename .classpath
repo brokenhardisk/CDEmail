@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.7"/>
+	<classpathentry kind="lib" path="jars/antlr-2.7.7.jar"/>
+	<classpathentry kind="lib" path="jars/avro-1.7.5.jar"/>
+	<classpathentry kind="lib" path="jars/commons-compress-1.5.jar"/>
+	<classpathentry kind="lib" path="jars/dom4j-1.6.1.jar"/>
+	<classpathentry kind="lib" path="jars/fakeSMTP-2.0.jar"/>
+	<classpathentry kind="lib" path="jars/hibernate-commons-annotations-4.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="jars/hibernate-commons-annotations-4.0.4.Final.jar"/>
+	<classpathentry kind="lib" path="jars/hibernate-core-4.1.6.Final.jar"/>
+	<classpathentry kind="lib" path="jars/hibernate-core-4.2.5.Final.jar"/>
+	<classpathentry kind="lib" path="jars/hibernate-jpa-2.0-api-1.0.1.Final.jar"/>
+	<classpathentry kind="lib" path="jars/hsqldb.jar"/>
+	<classpathentry kind="lib" path="jars/jackson-core-asl-1.9.2.jar"/>
+	<classpathentry kind="lib" path="jars/jackson-mapper-asl-1.9.2.jar"/>
+	<classpathentry kind="lib" path="jars/javassist-3.15.0-GA.jar"/>
+	<classpathentry kind="lib" path="jars/jboss-logging-3.1.0.GA.jar"/>
+	<classpathentry kind="lib" path="jars/jboss-logging-annotations-1.2.0.Beta1.jar"/>
+	<classpathentry kind="lib" path="jars/jboss-transaction-api_1.1_spec-1.0.0.Final.jar"/>
+	<classpathentry kind="lib" path="jars/lucene-core-3.6.2.jar"/>
+	<classpathentry kind="lib" path="jars/mysql-connector-java-5.0.4-bin.jar"/>
+	<classpathentry kind="lib" path="jars/ojdbc14.jar"/>
+	<classpathentry kind="lib" path="jars/paranamer-2.3.jar"/>
+	<classpathentry kind="lib" path="jars/slf4j-api-1.6.1.jar"/>
+	<classpathentry kind="lib" path="jars/sqltool.jar"/>
+	<classpathentry kind="output" path="target/classes"/>
+</classpath>
