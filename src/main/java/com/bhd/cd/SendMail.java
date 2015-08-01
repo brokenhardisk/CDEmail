@@ -1,5 +1,8 @@
 package com.bhd.cd;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
@@ -14,8 +17,8 @@ import com.bhd.cd.utils.HibernateUtils;
 
 public class SendMail extends Thread {
 
-	public static int threadCounter = 0;
-	private int threadCount;
+	public static int threadOffset = 0;
+	private int threadStart=0,threadEnd=0;
 	private List<Email> emailList = new ArrayList<Email>();
 
 	static Properties properties = new Properties();
@@ -43,15 +46,16 @@ public class SendMail extends Thread {
 		return ret;
 	}
 
-	SendMail() {
-		this.threadCount = ++threadCounter;
+	SendMail(int last) {
+		this.threadStart = threadOffset;
+		threadOffset+=(last-1);
+		this.threadEnd=threadOffset++;
 	}
 
 	public void run(){
 		this.emailList = HibernateUtils.retrievePendingMails(this);
 		if(emailList != null){
 			for(Email currentEmail: emailList){
-				System.out.println(currentEmail.getId()+this.getName());
 				this.sendEmailMessage(currentEmail);
 			}
 		}
@@ -59,32 +63,59 @@ public class SendMail extends Thread {
 
 	/**
 	 * @param args
+	 * @throws IOException 
+	 * @throws FileNotFoundException 
 	 */
-	public static void main(String[] args) {
-		SendMail thread1 = new SendMail();
-		SendMail thread2 = new SendMail();
-		SendMail thread3 = new SendMail();
-		SendMail thread4 = new SendMail();
-		thread1.start();
-		thread2.start();
-		thread3.start();
-		thread4.start();
-
+	public static void main(String[] args) throws FileNotFoundException, IOException {
+		InputStream inputStream = SendMail.class.getResourceAsStream("/config.properties");
+		Properties props = new Properties();
+		props.load(inputStream);
+		int num_process = Integer.parseInt((String) props.get("numberOfProcess"));
+		int num_threads = Integer.parseInt((String)props.get("numberOfThreads"));
+		int pId = Integer.parseInt((String) props.get("processID"));
+		int count = HibernateUtils.retrieveRowCount();
+		int curr_process_count = (count/num_process);
+		if(num_process != 1 && pId == num_process){
+			curr_process_count = count - (num_process-1)*curr_process_count;
+		}
+		int per_thread_count = (curr_process_count/num_threads);
+		threadOffset = ((pId-1)*curr_process_count)+1;
+		SendMail[] mailSendingThreads = new SendMail[num_threads]; 
+		for(int i=0;i<num_threads;i++){
+			if(i==(num_threads-1)){
+				per_thread_count = curr_process_count - (num_threads-1)*per_thread_count;
+			}
+			mailSendingThreads[i] = new SendMail(per_thread_count);
+			mailSendingThreads[i].start();
+		}
 	}
 
 	/**
-	 * @return the threadCount
+	 * @return the threadStart
 	 */
-	public int getThreadCount() {
-		return threadCount;
+	public int getThreadStart() {
+		return threadStart;
 	}
 
 	/**
-	 * @param threadCount
-	 *            the threadCount to set
+	 * @param threadStart the threadStart to set
 	 */
-	public void setThreadCount(int threadCount) {
-		this.threadCount = threadCount;
+	public void setThreadStart(int threadStart) {
+		this.threadStart = threadStart;
+	}
+
+	/**
+	 * @return the threadEnd
+	 */
+	public int getThreadEnd() {
+		return threadEnd;
+	}
+
+	/**
+	 * @param threadEnd the threadEnd to set
+	 */
+	public void setThreadEnd(int threadEnd) {
+		this.threadEnd = threadEnd;
 	}
 
 }

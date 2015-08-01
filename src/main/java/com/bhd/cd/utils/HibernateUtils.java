@@ -12,7 +12,7 @@ import com.bhd.cd.SendMail;
 
 public class HibernateUtils {
 
-public synchronized static int updateEmail(List<Email> emailList){
+public static int updateEmail(List<Email> emailList){
 		
 	Session session = SessionUtil.getSessionFactory().openSession();
 	Transaction tx = null;
@@ -39,31 +39,26 @@ public synchronized static int updateEmail(List<Email> emailList){
 		}
 	}
 
-public synchronized static List<Email> retrievePendingMails(SendMail myThread){
+public static List<Email> retrievePendingMails(SendMail myThread){
 	Session session = SessionUtil.getSessionFactory().openSession();
 	Transaction tx = null;
 	try {
 		tx = session.beginTransaction();
-		String hql;
-		if(myThread.getThreadCount() %2 != 0){
-			hql = "from Email where mailSent = :mailSent order by id";
-		} else{
-			hql = "from Email where mailSent = :mailSent order by id desc";
-		}
-		int zero = 0,one=1;
+		String hql = "from Email where id BETWEEN :startId AND :endId";
+		//int zero = 0,one=1;
 		Query query = session.createQuery(hql);
-		query.setParameter("mailSent",zero);
-		query.setMaxResults(3);
+		//query.setParameter("mailSent",zero);
+		query.setParameter("startId",myThread.getThreadStart());
+		query.setParameter("endId",myThread.getThreadEnd());
+		//query.setMaxResults(3);
 		List<Email> result = query.list();
 		if(!result.isEmpty()){
-			int startId = result.get(0).getId();
-			int endId = result.get(result.size()-1).getId();
-			hql = "update Email set mailSent = :mailSent where id BETWEEN :startId AND :endId";
+			/*hql = "update Email set mailSent = :mailSent where id BETWEEN :startId AND :endId";
 			query = session.createQuery(hql);
 			query.setParameter("mailSent",one);
-			query.setParameter("startId",startId);
-			query.setParameter("endId",endId);
-			query.executeUpdate();
+			query.setParameter("startId",myThread.getThreadStart());
+			query.setParameter("endId",myThread.getThreadEnd());
+			query.executeUpdate();*/
 			tx.commit();
 			return result;
 		}
@@ -79,5 +74,26 @@ public synchronized static List<Email> retrievePendingMails(SendMail myThread){
 		session.close();
 	}
 	
+}
+
+public static int retrieveRowCount(){
+	Session session = SessionUtil.getSessionFactory().openSession();
+	Transaction tx = null;
+		try {
+			tx = session.beginTransaction();
+			String hql = "from Email";
+			Query query = session.createQuery(hql);
+			int count = (query.list()).size();
+			tx.commit();
+			return count;
+		} catch (Exception e){
+			if(tx != null){
+				tx.rollback();
+			}
+			e.printStackTrace();
+			return -1;
+		} finally {
+			session.close();
+		}
 }
 }
