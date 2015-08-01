@@ -1,13 +1,20 @@
 package com.bhd.cd;
 
+/**
+ * POJO class for Email Queue db table
+ * @author bhd
+ *
+ */
 public class Email {
 
-	private int id;
+	private int id; //Unique Id for each row of Email in the db
 	private String fromEmailAddr;
 	private String toEmailAddr;
 	private String subject;
 	private String body;
 	private int mailSent;
+	
+	//Getters/Setters follow 
 	
 	/**
 	 * @return the id
