@@ -11,6 +11,5 @@
 	     <property name="toEmailAddr" column="To" />
 	     <property name="subject" column="Subject" />
 	     <property name="body" column="Body" />
-	     <property name="mailSent" column="Sent" />
 	</class>
 </hibernate-mapping>

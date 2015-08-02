@@ -16,7 +16,7 @@ import com.bhd.cd.SendMail;
  */
 public class HibernateUtils {
 
-/**
+/**Retrieve Emails from the db based on the range of IDs provided
  * @param myThread
  * @return
  */
@@ -48,6 +48,9 @@ public static List<Email> retrievePendingMails(SendMail myThread){
 	
 }
 
+/**Retrieve the count of rows of Emails to be sent
+ * @return
+ */
 public static int retrieveRowCount(){
 	Session session = SessionUtil.getSessionFactory().openSession();
 	Transaction tx = null;

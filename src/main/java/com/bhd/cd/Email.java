@@ -12,7 +12,6 @@ public class Email {
 	private String toEmailAddr;
 	private String subject;
 	private String body;
-	private int mailSent;
 	
 	//Getters/Setters follow 
 	
@@ -76,17 +75,4 @@ public class Email {
 	public void setBody(String body) {
 		this.body = body;
 	}
-	/**
-	 * @return the mailSent
-	 */
-	public int getMailSent() {
-		return mailSent;
-	}
-	/**
-	 * @param mailSent the mailSent to set
-	 */
-	public void setMailSent(int mailSent) {
-		this.mailSent = mailSent;
-	}
-	
 }
